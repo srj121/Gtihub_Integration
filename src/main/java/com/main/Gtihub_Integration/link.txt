@@ -1,0 +1,3 @@
+https://tryapis.com/github/api/repos-list-for-org
+
+above link having every possible api related to git Api

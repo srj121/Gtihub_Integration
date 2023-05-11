@@ -8,6 +8,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 @RestController
 public class GitHubUserController {
+
+    static String gitUrl = "https://api.github.com/";
     //____________________________________________________________create Headers Entity Method___________________________________________________________________________________________________
 
     public HttpEntity<String> createHeadersEntity() {
@@ -52,7 +54,7 @@ public class GitHubUserController {
     public ResponseEntity<String> getUserInfo(@PathVariable String userName ) {
         RestTemplate restTemplate = new RestTemplate();
        HttpEntity<String> entity = createHeadersEntity();
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/users/" + userName, HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "users/" + userName, HttpMethod.GET, entity, String.class);
         return result;
     }
     //____________________________________________________________repositories of Authenticated user___________________________________________________________________________________________________
@@ -62,7 +64,7 @@ public class GitHubUserController {
 
        HttpHeaders headers = createTokenHeaders();
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/user/repos", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "user/repos", HttpMethod.GET, entity, String.class);
         return result;
     }
 //____________________________________________________________get user repo___________________________________________________________________________________________________
@@ -70,7 +72,7 @@ public class GitHubUserController {
     public ResponseEntity<String> getUserRepository(@PathVariable String userName) {
         RestTemplate restTemplate = new RestTemplate();
       HttpEntity<String> entity = createHeadersEntity();
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/users/" + userName + "/repos" , HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "users/" + userName + "/repos" , HttpMethod.GET, entity, String.class);
         return result;
     }
     //____________________________________________________________create repo for Authenticated user___________________________________________________________________________________________________
@@ -85,7 +87,7 @@ public class GitHubUserController {
 
         // Send the request to the GitHub API
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange("https://api.github.com/user/repos",HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(gitUrl + "user/repos",HttpMethod.POST, entity, String.class);
         return response;
     }
 }

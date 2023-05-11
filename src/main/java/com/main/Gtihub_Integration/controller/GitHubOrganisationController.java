@@ -10,6 +10,7 @@ import java.util.Arrays;
 @RestController
 public class GitHubOrganisationController {
 
+    static String gitUrl = "https://api.github.com/";
     //____________________________________________________________create Headers Entity Method___________________________________________________________________________________________________
 
     public HttpEntity<String> createHeadersEntity() {
@@ -57,7 +58,7 @@ public class GitHubOrganisationController {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = createHeadersEntity();
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/orgs/" + org + "/repos", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "orgs/" + org + "/repos", HttpMethod.GET, entity, String.class);
         return result;
 
     }
@@ -75,7 +76,7 @@ public class GitHubOrganisationController {
 
         // Send the request to the GitHub API
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange("https://api.github.com/orgs/" + org + "/repos", HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(gitUrl + "orgs/" + org + "/repos", HttpMethod.POST, entity, String.class);
         return response;
     }
     //____________________________________________________________update org repo___________________________________________________________________________________________________
@@ -106,7 +107,7 @@ public class GitHubOrganisationController {
         HttpHeaders headers = createTokenHeaders();
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<String> response = restTemplate.exchange("https://api.github.com/repos/" + owner + "/" + repo, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(gitUrl + "repos/" + owner + "/" + repo, HttpMethod.POST, entity, String.class);
         return response;
     }
 
@@ -119,7 +120,7 @@ public class GitHubOrganisationController {
         HttpHeaders headers = createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        restTemplate.exchange("https://api.github.com/repos/orgdummy1/Hello-raj", HttpMethod.DELETE, entity, Void.class);
+        restTemplate.exchange(gitUrl + "repos/orgdummy1/Hello-raj", HttpMethod.DELETE, entity, Void.class);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
@@ -132,7 +133,7 @@ public class GitHubOrganisationController {
             @PathVariable String repo) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = createHeadersEntity();
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/repos/" + org + "/" + repo + "/languages", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/languages", HttpMethod.GET, entity, String.class);
         return result;
     }
 
@@ -143,7 +144,7 @@ public class GitHubOrganisationController {
             @PathVariable String repo) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = createHeadersEntity();
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/repos/" + org + "/" + repo + "/tags", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/tags", HttpMethod.GET, entity, String.class);
         return result;
     }
 
@@ -157,7 +158,7 @@ public class GitHubOrganisationController {
         HttpHeaders headers = createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/repos/" + org + "/" + repo + "/teams", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/teams", HttpMethod.GET, entity, String.class);
         return result;
     }
 
@@ -171,7 +172,7 @@ public class GitHubOrganisationController {
         HttpHeaders headers = createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/repos/" + org + "/" + repo + "/topics", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/topics", HttpMethod.GET, entity, String.class);
         return result;
     }
     //____________________________________________________________list of repository contributor___________________________________________________________________________________________________
@@ -183,7 +184,7 @@ public class GitHubOrganisationController {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = createHeadersEntity();
-        ResponseEntity<String> result = restTemplate.exchange("https://api.github.com/repos/" + owner + "/" + repo + "/contributors", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "repos/" + owner + "/" + repo + "/contributors", HttpMethod.GET, entity, String.class);
         return result;
 
     }

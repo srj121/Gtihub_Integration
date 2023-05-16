@@ -1,6 +1,6 @@
 package com.main.Gtihub_Integration.entity;
 
-public class Repository {
+public class CreateRepository {
     private int id;
     private String name;
     private String fullName;
@@ -15,12 +15,12 @@ public class Repository {
     private int openIssuesCount;
 
     // Constructors
-    public Repository() {
+    public CreateRepository() {
     }
 
-    public Repository(int id, String name, String fullName, boolean isPrivate, Owner owner, String htmlUrl,
-                      String language, boolean hasIssues, boolean hasProjects, boolean hasWiki,
-                      int forksCount, int openIssuesCount) {
+    public CreateRepository(int id, String name, String fullName, boolean isPrivate, Owner owner, String htmlUrl,
+                            String language, boolean hasIssues, boolean hasProjects, boolean hasWiki,
+                            int forksCount, int openIssuesCount) {
         this.id = id;
         this.name = name;
         this.fullName = fullName;

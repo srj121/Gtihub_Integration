@@ -1,17 +1,30 @@
 package com.main.Gtihub_Integration.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class Branch {
 
-    String new_Name;
-    String ref = "refs/heads/";
+    String new_name;
+    String ref;
     String sha;
 
-    public String getNew_Name() {
-        return ref + new_Name;
+    public String getRef() {
+        return ref;
     }
 
-    public void setNew_Name(String new_Name) {
-        this.new_Name = new_Name;
+    public void setRef(String ref) {
+        this.ref = "refs/heads/" + ref;
+    }
+
+    public String getNew_name() {
+        return new_name;
+    }
+
+    public void setNew_name(String new_name) {
+        this.new_name = new_name;
     }
 
     public String getSha() {

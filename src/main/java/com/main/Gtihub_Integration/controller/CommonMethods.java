@@ -1,17 +1,24 @@
 package com.main.Gtihub_Integration.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.main.Gtihub_Integration.entity.Branch;
 import com.main.Gtihub_Integration.entity.RepositoryRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@Service
 public class CommonMethods {
 
-     String gitUrl = "https://api.github.com/";
-
+     @Autowired
+     RestTemplate restTemplate;
+     @Autowired
+    ObjectMapper objectMapper;
     //____________________________________________________________create Headers Entity Method___________________________________________________________________________________________________
 
     public HttpEntity<String> createHeadersEntity() {
@@ -25,7 +32,7 @@ public class CommonMethods {
     public HttpHeaders createTokenHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer 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");
+        headers.set("Authorization", "Bearer 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");
         headers.set("Accept", "application/vnd.github+json");
         headers.set("X-GitHub-Api-Version", "2022-11-28");
 
@@ -36,7 +43,7 @@ public class CommonMethods {
     public String createRequestBodyNewBranch(Branch branch) {
 
         // Prepare the request body
-        return "{\"ref\":\"" + branch.getNew_Name() + "\",\"sha\":\"" + branch.getSha() + "\"}";
+        return "{\"ref\":\"" + branch.getNew_name() + "\",\"sha\":\"" + branch.getSha() + "\"}";
     }
 
     //____________________________________________________________create  Request Body Method___________________________________________________________________________________________________
@@ -49,10 +56,8 @@ public class CommonMethods {
     }
     //____________________________________________________________create  Request Body for Name Method___________________________________________________________________________________________________
 
-    public String createRequestBodyNewName() {
-        Branch branch = new Branch();
-        branch.setNew_Name("RajasekharNewBranch");
+    public String createRequestBodyNewName(Branch branch) {
         // Prepare the request body
-        return "{\"new_name\":\"" + branch.getNew_Name() + "\"}";
+        return "{\"new_name\":\"" + branch.getNew_name() + "\"}";
     }
 }

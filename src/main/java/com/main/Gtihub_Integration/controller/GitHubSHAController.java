@@ -1,6 +1,8 @@
 package com.main.Gtihub_Integration.controller;
 
 import com.main.Gtihub_Integration.entity.Commit;
+import com.main.Gtihub_Integration.entity.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,8 +16,10 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/sha")
 public class GitHubSHAController {
-    CommonMethods commonMehtods = new CommonMethods();
-
+    @Autowired
+    CommonMethods  commonMethods;
+    @Autowired
+    RestTemplate restTemplate;
     //____________________________________________________________latest sha of a user in a repo___________________________________________________________________________________________________
 
     @GetMapping("/userCommit/sha/{owner}/{repo}/{username}")
@@ -24,12 +28,12 @@ public class GitHubSHAController {
             @PathVariable String repo,
             @PathVariable String username) {
 
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = commonMehtods.createTokenHeaders();
+         
+        HttpHeaders headers =  commonMethods.createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
         HttpEntity<Commit[]> response = restTemplate.exchange(
-                commonMehtods.gitUrl + "repos/" + owner + "/" + repo + "/commits?per_page=1&sort=created&direction=desc&author=" + username,
+                 Constants.BASE_URL + "repos/" + owner + "/" + repo + "/commits?per_page=1&sort=created&direction=desc&author=" + username,
                 HttpMethod.GET, entity, Commit[].class);
         System.out.println(response);
 
@@ -43,13 +47,13 @@ public class GitHubSHAController {
             @PathVariable String owner,
             @PathVariable String repo) {
 
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = commonMehtods.createTokenHeaders();
+         
+        HttpHeaders headers =  commonMethods.createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
         HttpEntity<Commit[]> response = restTemplate.exchange(
-                commonMehtods.gitUrl + "repos/" + owner + "/" + repo + "/commits?per_page=1&sort=created&direction=desc",
+                 Constants.BASE_URL + "repos/" + owner + "/" + repo + "/commits?per_page=1&sort=created&direction=desc",
                 HttpMethod.GET, entity, Commit[].class);
         Commit commitData = null;
         if (response.getBody() != null) {

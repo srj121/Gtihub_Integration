@@ -1,6 +1,5 @@
 package com.main.Gtihub_Integration.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.main.Gtihub_Integration.entity.Commit;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,27 +13,24 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/sha")
-public class Sha {
-
-    static String gitUrl = "https://api.github.com/";
+public class GitHubSHAController {
     CommonMehtods commonMehtods = new CommonMehtods();
 
-    //____________________________________________________________sha of a user ___________________________________________________________________________________________________
+    //____________________________________________________________latest sha of a user in a repo___________________________________________________________________________________________________
 
-    @GetMapping("/userCommit/sha/{owner}/{repo}/{commit_sha}/{username}")
-    public ResponseEntity<Commit> userSHA(
+    @GetMapping("/userCommit/sha/{owner}/{repo}/{username}")
+    public ResponseEntity<Commit[]> userLatestSHA(
             @PathVariable String owner,
             @PathVariable String repo,
-            @PathVariable String commit_sha,
             @PathVariable String username) {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = commonMehtods.createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        HttpEntity<Commit> response = restTemplate.exchange(
-                gitUrl + "repos/" + owner + "/" + repo + "/commits/" + commit_sha + "?author=" + username,
-                HttpMethod.GET, entity, Commit.class);
+        HttpEntity<Commit[]> response = restTemplate.exchange(
+                commonMehtods.gitUrl + "repos/" + owner + "/" + repo + "/commits?per_page=1&sort=created&direction=desc&author=" + username,
+                HttpMethod.GET, entity, Commit[].class);
         System.out.println(response);
 
         return ResponseEntity.ok().body(response.getBody());
@@ -43,7 +39,7 @@ public class Sha {
     //____________________________________________________________get the SHA of the latest commit___________________________________________________________________________________________________
 
     @GetMapping("latest/commit/{owner}/{repo}")
-    public ResponseEntity<Commit[]> latestSHA(
+    public ResponseEntity<Commit[]> repoLatestSHA(
             @PathVariable String owner,
             @PathVariable String repo) {
 
@@ -53,7 +49,7 @@ public class Sha {
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
         HttpEntity<Commit[]> response = restTemplate.exchange(
-                gitUrl + "repos/" + owner + "/" + repo + "/commits?per_page=1&sort=created&direction=desc",
+                commonMehtods.gitUrl + "repos/" + owner + "/" + repo + "/commits?per_page=1&sort=created&direction=desc",
                 HttpMethod.GET, entity, Commit[].class);
         Commit commitData = null;
         if (response.getBody() != null) {

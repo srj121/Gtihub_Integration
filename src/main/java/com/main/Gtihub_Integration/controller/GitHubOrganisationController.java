@@ -9,8 +9,6 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/Organisation")
 public class GitHubOrganisationController {
-
-    static String gitUrl = "https://api.github.com/";
     CommonMehtods commonMehtods = new CommonMehtods();
 
     //____________________________________________________________get org repo___________________________________________________________________________________________________
@@ -20,7 +18,7 @@ public class GitHubOrganisationController {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = commonMehtods.createHeadersEntity();
-        return restTemplate.exchange(gitUrl + "orgs/" + org + "/repos", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "orgs/" + org + "/repos", HttpMethod.GET, entity, String.class);
 
     }
 
@@ -37,23 +35,23 @@ public class GitHubOrganisationController {
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.exchange(gitUrl + "orgs/" + org + "/repos", HttpMethod.POST, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "orgs/" + org + "/repos", HttpMethod.POST, entity, String.class);
     }
     //____________________________________________________________update org repo___________________________________________________________________________________________________
 
     @PostMapping("update/repository/{owner}/{repo}")
     public ResponseEntity<String> updateOrgRepo(
             @PathVariable String owner,
-            @PathVariable String repo
+            @PathVariable String repo,
+              @RequestBody RepositoryRequest repositoryRequest
     ) {
+        String newName = commonMehtods.createRequestBody(repositoryRequest);
 
-        RepositoryRequest request = new RepositoryRequest();
-        request.setName(repo);
 
         HttpHeaders headers = commonMehtods.createTokenHeaders();
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        return restTemplate.exchange(gitUrl + "repos/" + owner + "/" + repo, HttpMethod.POST, entity, String.class);
+        HttpEntity<String> entity = new HttpEntity<>(newName, headers);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner + "/" + repo, HttpMethod.POST, entity, String.class);
     }
 
     //____________________________________________________________delete org repo___________________________________________________________________________________________________
@@ -65,7 +63,7 @@ public class GitHubOrganisationController {
         HttpHeaders headers = commonMehtods.createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        restTemplate.exchange(gitUrl + "repos/"+ owner +"/"+ repo, HttpMethod.DELETE, entity, Void.class);
+        restTemplate.exchange(commonMehtods.gitUrl + "repos/"+ owner +"/"+ repo, HttpMethod.DELETE, entity, Void.class);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
@@ -78,22 +76,22 @@ public class GitHubOrganisationController {
             @PathVariable String repo) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = commonMehtods.createHeadersEntity();
-        return restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/languages", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + org + "/" + repo + "/languages", HttpMethod.GET, entity, String.class);
     }
 
     //____________________________________________________________get org repo tags___________________________________________________________________________________________________
     @GetMapping("/repository/tags/{org}/{repo}")
-    public ResponseEntity<String> getOrgRepositorytags(
+    public ResponseEntity<String> getOrgRepositoryTags(
             @PathVariable String org,
             @PathVariable String repo) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = commonMehtods.createHeadersEntity();
-        return restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/tags", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + org + "/" + repo + "/tags", HttpMethod.GET, entity, String.class);
     }
 
     //____________________________________________________________get org repo teams___________________________________________________________________________________________________
     @GetMapping("/repository/teams/{org}/{repo}")
-    public ResponseEntity<String> getOrgRepositoryteams(
+    public ResponseEntity<String> getOrgRepositoryTeams(
             @PathVariable String org,
             @PathVariable String repo) {
         RestTemplate restTemplate = new RestTemplate();
@@ -101,12 +99,12 @@ public class GitHubOrganisationController {
         HttpHeaders headers = commonMehtods.createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/teams", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + org + "/" + repo + "/teams", HttpMethod.GET, entity, String.class);
     }
 
     //____________________________________________________________get org repo topics___________________________________________________________________________________________________
     @GetMapping("/repository/topics/{org}/{repo}")
-    public ResponseEntity<String> getOrgRepositorytopics(
+    public ResponseEntity<String> getOrgRepositoryTopics(
             @PathVariable String org,
             @PathVariable String repo) {
         RestTemplate restTemplate = new RestTemplate();
@@ -114,7 +112,7 @@ public class GitHubOrganisationController {
         HttpHeaders headers = commonMehtods.createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.exchange(gitUrl + "repos/" + org + "/" + repo + "/topics", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + org + "/" + repo + "/topics", HttpMethod.GET, entity, String.class);
     }
     //____________________________________________________________list of repository contributor___________________________________________________________________________________________________
 
@@ -125,7 +123,7 @@ public class GitHubOrganisationController {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> entity = commonMehtods.createHeadersEntity();
-        return restTemplate.exchange(gitUrl + "repos/" + owner + "/" + repo + "/contributors", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner + "/" + repo + "/contributors", HttpMethod.GET, entity, String.class);
 
     }
 

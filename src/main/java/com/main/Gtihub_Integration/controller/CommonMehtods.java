@@ -6,10 +6,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class CommonMehtods {
+
+     String gitUrl = "https://api.github.com/";
 
     //____________________________________________________________create Headers Entity Method___________________________________________________________________________________________________
 
@@ -17,14 +18,14 @@ public class CommonMehtods {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        return new HttpEntity<String>("parameters", headers);
+        return new HttpEntity<>("parameters", headers);
     }
     //____________________________________________________________create token Headers Entity Method___________________________________________________________________________________________________
 
     public HttpHeaders createTokenHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer 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");
+        headers.set("Authorization", "Bearer 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");
         headers.set("Accept", "application/vnd.github+json");
         headers.set("X-GitHub-Api-Version", "2022-11-28");
 
@@ -43,9 +44,8 @@ public class CommonMehtods {
     public String createRequestBody(RepositoryRequest repositoryrequest) {
 
         // Prepare the request body
-        String requestBody = "{\"name\":\"" + repositoryrequest.getName() + "\",\"description\":\"" +
+        return "{\"name\":\"" + repositoryrequest.getName() + "\",\"description\":\"" +
                 repositoryrequest.getDescription() + "\",\"private\":" + repositoryrequest.isPrivate() + "}";
-        return requestBody;
     }
     //____________________________________________________________create  Request Body for Name Method___________________________________________________________________________________________________
 
@@ -53,7 +53,6 @@ public class CommonMehtods {
         Branch branch = new Branch();
         branch.setNew_Name("RajasekharNewBranch");
         // Prepare the request body
-        String requestBody = "{\"new_name\":\"" + branch.getNew_Name() + "\"}";
-        return requestBody;
+        return "{\"new_name\":\"" + branch.getNew_Name() + "\"}";
     }
 }

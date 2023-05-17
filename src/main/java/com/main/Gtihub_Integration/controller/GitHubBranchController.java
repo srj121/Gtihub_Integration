@@ -8,8 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class GitHubBranchController {
-
-    static String gitUrl = "https://api.github.com/";
+    
     CommonMehtods commonMehtods = new CommonMehtods();
     //____________________________________________________________List branches___________________________________________________________________________________________________
 
@@ -19,9 +18,10 @@ public class GitHubBranchController {
             @PathVariable String repo) {
         RestTemplate restTemplate = new RestTemplate();
 
-        HttpEntity<String> entity =  commonMehtods.createHeadersEntity();
+        HttpHeaders headers = commonMehtods.createTokenHeaders();
+        HttpEntity<String> entity =  new HttpEntity<>("parameters", headers);
 
-        return restTemplate.exchange(gitUrl + "repos/" + owner +"/"+ repo + "/branches", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner +"/"+ repo + "/branches", HttpMethod.GET, entity, String.class);
     }
     //____________________________________________________________find particular branch___________________________________________________________________________________________________
 
@@ -34,7 +34,7 @@ public class GitHubBranchController {
 
         HttpEntity<String> entity =  commonMehtods.createHeadersEntity();
 
-        return restTemplate.exchange(gitUrl + "repos/" + owner +"/"+ repo + "/branches/"+ branch, HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner +"/"+ repo + "/branches/"+ branch, HttpMethod.GET, entity, String.class);
     }
     //____________________________________________________________rename particular branch___________________________________________________________________________________________________
 
@@ -49,7 +49,7 @@ public class GitHubBranchController {
         HttpEntity<String> entity =  new HttpEntity<>(resposeBody, headers);
 
 
-        return restTemplate.exchange(gitUrl + "repos/" + owner +"/"+ repo + "/branches/"+ branch + "/rename", HttpMethod.POST, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner +"/"+ repo + "/branches/"+ branch + "/rename", HttpMethod.POST, entity, String.class);
     }
     //____________________________________________________________create org branch___________________________________________________________________________________________________
 
@@ -65,7 +65,7 @@ public class GitHubBranchController {
         HttpEntity<String> entity =  new HttpEntity<>(resposeBody, headers);
 
 
-        return restTemplate.exchange(gitUrl + "repos/"+ owner +"/"+ repo +"/git/refs", HttpMethod.POST, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/"+ owner +"/"+ repo +"/git/refs", HttpMethod.POST, entity, String.class);
     }
 }
 //____________________________________________________________Merge a branch___________________________________________________________________________________________________
@@ -80,7 +80,7 @@ public class GitHubBranchController {
 //        HttpEntity<String> entity =  new HttpEntity<>(resposeBody, headers);
 //
 //
-//        ResponseEntity<String> result = restTemplate.exchange(gitUrl + "repos/" + owner +"/"+ repo + "/branches/"+ branch + "/rename", HttpMethod.POST, entity, String.class);
+//        ResponseEntity<String> result = restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner +"/"+ repo + "/branches/"+ branch + "/rename", HttpMethod.POST, entity, String.class);
 //        return result;
 //    }
 

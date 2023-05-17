@@ -11,8 +11,6 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/commits")
 public class GitHubCommitsController {
-
-    static String gitUrl = "https://api.github.com/";
         CommonMehtods commonMehtods = new CommonMehtods();
 
 //____________________________________________________________List of commits ___________________________________________________________________________________________________
@@ -25,7 +23,7 @@ public class GitHubCommitsController {
 
         HttpEntity<String> entity =  commonMehtods.createHeadersEntity();
 
-        return restTemplate.exchange(gitUrl + "repos/" + owner +"/"+ repo + "/commits", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner +"/"+ repo + "/commits", HttpMethod.GET, entity, String.class);
 
     }
     //____________________________________________________________List branches for HEAD commit___________________________________________________________________________________________________
@@ -42,7 +40,7 @@ public class GitHubCommitsController {
 
         HttpEntity<String> entity = new HttpEntity<>("parameters",headers);
       return restTemplate.exchange(
-                gitUrl + "repos/" + owner + "/" + repo +"/commits/" + commit_sha + "/branches-where-head",
+                commonMehtods.gitUrl + "repos/" + owner + "/" + repo +"/commits/" + commit_sha + "/branches-where-head",
                 HttpMethod.GET, entity,  String.class);
     }
     //____________________________________________________________List pull requests associated with a commit ___________________________________________________________________________________________________
@@ -58,7 +56,7 @@ public class GitHubCommitsController {
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
       return restTemplate.exchange(
-                gitUrl + "repos/" + owner + "/" + repo +"/commits/" + commit_sha + "/pulls",
+                commonMehtods.gitUrl + "repos/" + owner + "/" + repo +"/commits/" + commit_sha + "/pulls",
                 HttpMethod.GET, entity,  String.class);
     }
     //____________________________________________________________number of lines with a commit ___________________________________________________________________________________________________
@@ -74,7 +72,7 @@ public class GitHubCommitsController {
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
         return restTemplate.exchange(
-                gitUrl + "repos/" + owner + "/" + repo +"/commits/" + commit_sha ,
+                commonMehtods.gitUrl + "repos/" + owner + "/" + repo +"/commits/" + commit_sha ,
                 HttpMethod.GET, entity,  String.class);
     }
     //____________________________________________________________Get a commit___________________________________________________________________________________________________
@@ -90,7 +88,7 @@ public class GitHubCommitsController {
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
        return restTemplate.exchange(
-                gitUrl + "repos/"+ owner +"/"+ repo +"/commits/"+ ref,
+                commonMehtods.gitUrl + "repos/"+ owner +"/"+ repo +"/commits/"+ ref,
                 HttpMethod.GET, entity,  String.class);
     }
     //____________________________________________________________Compare two commits___________________________________________________________________________________________________
@@ -106,7 +104,7 @@ public class GitHubCommitsController {
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
       return restTemplate.exchange(
-                gitUrl + "repos/"+ owner +"/"+ repo +"/compare/"+ basehead,
+                commonMehtods.gitUrl + "repos/"+ owner +"/"+ repo +"/compare/"+ basehead,
                 HttpMethod.GET, entity,  String.class);
     }
     //**********************************pending*********************************

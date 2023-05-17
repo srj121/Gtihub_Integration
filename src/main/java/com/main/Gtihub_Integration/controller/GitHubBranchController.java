@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class GitHubBranchController {
     
-    CommonMehtods commonMehtods = new CommonMehtods();
+    com.main.Gtihub_Integration.controller.CommonMethods commonMehtods = new CommonMethods();
     //____________________________________________________________List branches___________________________________________________________________________________________________
 
     @GetMapping("/repos/{owner}/{repo}/branches")

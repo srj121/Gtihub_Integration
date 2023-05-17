@@ -9,14 +9,14 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/user")
 public class GitHubUserController {
-    CommonMehtods commonMehtods = new CommonMehtods();
+    com.main.Gtihub_Integration.controller.CommonMethods CommonMethods = new CommonMethods();
 
     //____________________________________________________________get user___________________________________________________________________________________________________
     @GetMapping("findUser/{userName}")
     public ResponseEntity<String> getUserInfo(@PathVariable String userName) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<String> entity = commonMehtods.createHeadersEntity();
-        return restTemplate.exchange(commonMehtods.gitUrl + "users/" + userName, HttpMethod.GET, entity, String.class);
+        HttpEntity<String> entity = CommonMethods.createHeadersEntity();
+        return restTemplate.exchange(CommonMethods.gitUrl + "users/" + userName, HttpMethod.GET, entity, String.class);
     }
 
     //____________________________________________________________repositories of Authenticated user___________________________________________________________________________________________________
@@ -24,30 +24,30 @@ public class GitHubUserController {
     public ResponseEntity<String> getRepoOfAuthenticatedUser() {
         RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders headers = commonMehtods.createTokenHeaders();
+        HttpHeaders headers = CommonMethods.createTokenHeaders();
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.exchange(commonMehtods.gitUrl + "user/repos", HttpMethod.GET, entity, String.class);
+        return restTemplate.exchange(CommonMethods.gitUrl + "user/repos", HttpMethod.GET, entity, String.class);
     }
 
     //____________________________________________________________get user repo___________________________________________________________________________________________________
     @GetMapping("/{userName}/repos")
     public ResponseEntity<String> getUserRepository(@PathVariable String userName) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<String> entity = commonMehtods.createHeadersEntity();
-        return restTemplate.exchange(commonMehtods.gitUrl + "users/" + userName + "/repos", HttpMethod.GET, entity, String.class);
+        HttpEntity<String> entity = CommonMethods.createHeadersEntity();
+        return restTemplate.exchange(CommonMethods.gitUrl + "users/" + userName + "/repos", HttpMethod.GET, entity, String.class);
     }
 
     //____________________________________________________________create repo for Authenticated user___________________________________________________________________________________________________
     @PostMapping("/create/repo")
     public ResponseEntity<String> createAtuhUserRepository(@RequestBody RepositoryRequest repositoryRequest) {
 
-        String requestBody = commonMehtods.createRequestBody(repositoryRequest);
-        HttpHeaders headers = commonMehtods.createTokenHeaders();
+        String requestBody = CommonMethods.createRequestBody(repositoryRequest);
+        HttpHeaders headers = CommonMethods.createTokenHeaders();
 
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.exchange(commonMehtods.gitUrl + "user/repos", HttpMethod.POST, entity, String.class);
+        return restTemplate.exchange(CommonMethods.gitUrl + "user/repos", HttpMethod.POST, entity, String.class);
     }
     //____________________________________________________________create branch in user repo___________________________________________________________________________________________________
 
@@ -58,12 +58,12 @@ public class GitHubUserController {
             @RequestBody Branch branch
     ) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = commonMehtods.createTokenHeaders();
-        String resposeBody = commonMehtods.createRequestBodyNewBranch(branch);
+        HttpHeaders headers = CommonMethods.createTokenHeaders();
+        String resposeBody = CommonMethods.createRequestBodyNewBranch(branch);
         HttpEntity<String> entity = new HttpEntity<>(resposeBody, headers);
 
 
-        return restTemplate.exchange(commonMehtods.gitUrl + "repos/" + owner + "/" + repo + "/git/refs", HttpMethod.POST, entity, String.class);
+        return restTemplate.exchange(CommonMethods.gitUrl + "repos/" + owner + "/" + repo + "/git/refs", HttpMethod.POST, entity, String.class);
     }
 
 

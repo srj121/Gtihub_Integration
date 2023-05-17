@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/sha")
 public class GitHubSHAController {
-    CommonMehtods commonMehtods = new CommonMehtods();
+    CommonMethods commonMehtods = new CommonMethods();
 
     //____________________________________________________________latest sha of a user in a repo___________________________________________________________________________________________________
 

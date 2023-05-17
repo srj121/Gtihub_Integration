@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/Organisation")
 public class GitHubOrganisationController {
-    CommonMehtods commonMehtods = new CommonMehtods();
+    com.main.Gtihub_Integration.controller.CommonMethods commonMehtods = new CommonMethods();
 
     //____________________________________________________________get org repo___________________________________________________________________________________________________
 

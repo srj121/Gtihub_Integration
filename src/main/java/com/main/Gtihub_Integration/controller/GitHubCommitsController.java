@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/commits")
 public class GitHubCommitsController {
-        CommonMehtods commonMehtods = new CommonMehtods();
+        com.main.Gtihub_Integration.controller.CommonMethods commonMehtods = new CommonMethods();
 
 //____________________________________________________________List of commits ___________________________________________________________________________________________________
 

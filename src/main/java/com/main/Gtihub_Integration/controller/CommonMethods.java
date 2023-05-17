@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 
-public class CommonMehtods {
+public class CommonMethods {
 
      String gitUrl = "https://api.github.com/";
 
